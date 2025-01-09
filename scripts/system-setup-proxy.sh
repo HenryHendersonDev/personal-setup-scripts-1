@@ -132,13 +132,13 @@ sudo -u "$ACTUAL_USER" bash -c "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run
 
 # Download backup files with error checking
 info_msg "_________DOWNLOAD BACKUP FILES_________"
-sudo -u "$ACTUAL_USER"  -P "$TEMP_DIR" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/backups/gnome-backup.txt || handle_error "Failed to download gnome-backup.txt"
+sudo -u "$ACTUAL_USER" curl --socks5 127.0.0.1:10808 -o "$TEMP_DIR/gnome-backup.txt" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/backups/gnome-backup.txt || handle_error "Failed to download gnome-backup.txt"
 sudo -u "$ACTUAL_USER" curl --socks5 127.0.0.1:10808 -o "$TEMP_DIR/gnome-extensions-backup.txt" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/backups/gnome-extensions-backup.txt || handle_error "Failed to download gnome-extensions-backup.txt"
 
 
 # Restore settings from backups with proper dbus session
 info_msg "_________RESTORE SETTINGS FROM BACKUPS_________"
-sudo -u "$ACTUAL_USER" bash -c "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run/user/$(id -u $ACTUAL_USER)/bus\" && {
+ bash -c "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run/user/$(id -u $ACTUAL_USER)/bus\" && {
     if [ -f \"$TEMP_DIR/gnome-backup.txt\" ]; then
         dconf load /org/gnome/ < \"$TEMP_DIR/gnome-backup.txt\"
     fi
@@ -149,7 +149,7 @@ sudo -u "$ACTUAL_USER" bash -c "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run
 
 # List GNOME extensions
 info_msg "_________LIST GNOME EXTENSIONS_________"
-sudo -u "$ACTUAL_USER" DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u $ACTUAL_USER)/bus" gnome-extensions list
+ DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u $ACTUAL_USER)/bus" gnome-extensions list
 
 # Add sources
 info_msg "_________ADD SOURCES TO APT_________"
