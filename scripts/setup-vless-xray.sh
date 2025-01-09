@@ -39,6 +39,7 @@ sudo mkdir -p /usr/local/xray/script
 wget -P /usr/local/xray/script https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/refs/heads/main/scripts/proxy/enable-xray-proxy.sh
 wget -P /usr/local/xray/script https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/refs/heads/main/scripts/proxy/disable-xray-proxy.sh
 sudo touch /etc/apt/apt.conf.d/95proxies
+sudo chmod 777 /usr/local/xray/
 sudo chmod +x /usr/local/xray/script/*
 
 sudo /usr/local/xray/vless-to-config.sh

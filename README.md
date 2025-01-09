@@ -86,5 +86,3 @@ While these scripts are tailored for the latest Debian and GNOME setups, they sh
 - These scripts are designed for **personal use** and assume a certain level of system familiarity. If you're unfamiliar with system setup or modifications, **use caution**.
 - **Backup** your system before executing any of these scripts.
 - The scripts are **not officially supported**. Use them as-is and at your own discretion.
-
-- vless://c4b87bb5-88ff-494b-a1e8-571aa74b63c1@christmas.arunod.store:443/?security=tls&encryption=none&headerType=&type=ws&path=%252f&sni=aka.ms#GODSOFDATA
