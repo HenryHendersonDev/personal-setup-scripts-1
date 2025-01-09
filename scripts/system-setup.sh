@@ -56,7 +56,7 @@ chown -R "${ACTUAL_USER}:${ACTUAL_USER}" "$backup_dir"
 TEXT_COLOR_GREEN='\033[0;32m'
 TEXT_COLOR_RESET='\033[0m'
 
-DISPLAY_TEXT="The Extensions are successfuly isntalld but you ain't gonna see them once restarted it will appear and automatically updating to latest version after that it will tell you to logout and login then extension will fine. if it's not showing right now dont; worry"
+DISPLAY_TEXT="The Extensions are successfully installed but you ain't gonna see them once restarted it will appear and automatically updating to latest version after that it will tell you to logout and login then extension will fine. if it's not showing right now dont; worry"
 
 BOX_WIDTH=100
 BOX_BORDER=$(printf '_%.0s' $(seq 1 $BOX_WIDTH))
@@ -169,7 +169,7 @@ nala install -y nautilus gnome-calculator gnome-system-monitor || warning_msg "F
 
 # Install utilities
 info_msg "_________INSTALL UTILITIES_________"
-nala install -y wget curl neofetch postgresql postgresql-contrib git preload bleachbit imwheel || warning_msg "Failed to install some utilities"
+nala install -y wget curl neofetch postgresql postgresql-contrib git preload imwheel || warning_msg "Failed to install some utilities"
 systemctl start postgresql || warning_msg "PostgreSQL service failed to start"
 systemctl enable postgresql
 sudo systemctl enable preload
@@ -186,6 +186,7 @@ flatpak_apps=(
     "md.obsidian.Obsidian"
     "org.telegram.desktop"
     "com.usebruno.Bruno"
+    "org.bleachbit.BleachBit"
 )
 
 for app in "${flatpak_apps[@]}"; do
@@ -305,6 +306,30 @@ fi
 info_msg "_________SERVICE STATUS CHECK_________"
 systemctl status postgresql --no-pager || warning_msg "PostgreSQL service check failed"
 systemctl status redis-server --no-pager || warning_msg "Redis service check failed"
+
+# handling System Services On Startup Auto Run
+info_msg "_________HANDLING SYSTEM SERVICES ON STARTUP_________"
+sudo systemctl disable bluetooth.service
+sudo systemctl disable console-getty.service
+sudo systemctl disable debug-shell.service
+sudo systemctl disable nftables.service
+sudo systemctl disable pg_receivewal@.service
+sudo systemctl disable postgresql.service
+sudo systemctl disable redis-server@.service
+sudo systemctl disable redis-server.service
+sudo systemctl disable rtkit-daemon.service
+sudo systemctl disable serial-getty@.service
+sudo systemctl disable sysstat.service
+sudo systemctl disable systemd-boot-check-no-failures.service
+sudo systemctl disable systemd-sysext.service
+sudo systemctl disable systemd-time-wait-sync.service
+sudo systemctl disable upower.service
+sudo systemctl disable wpa_supplicant-nl80211@.service
+sudo systemctl disable wpa_supplicant-wired@.service
+sudo systemctl disable bluetooth.service
+sudo systemctl enable nvidia-hibernate.service
+sudo systemctl enable nvidia-resume.service
+sudo systemctl enable nvidia-suspend.service
 
 # Print final success message
 MESSAGE="Setup completed! Please reboot your system to apply all changes."
