@@ -9,6 +9,12 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
+# Validate the directory path
+if [[ ! -d "$vless_url" ]]; then
+  echo "Invalid directory path. Please enter a valid directory."
+  exit 1
+fi
+
 # Proceed with the rest of the script
 echo "User has sudo privileges. Proceeding with the setup..."
 
