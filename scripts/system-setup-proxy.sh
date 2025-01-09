@@ -98,7 +98,7 @@ nala install -y gnome-shell-extensions gnome-tweaks gnome-shell-extension-manage
 # Download and install extensions
 info_msg "_________DOWNLOADING AND INSTALLING GNOME EXTENSIONS_________"
 # Download as the actual user
-sudo -u "$ACTUAL_USER"  -P "$TEMP_DIR" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/assets/extension.zip || handle_error "Failed to download extensions"
+sudo -u "$ACTUAL_USER" curl --socks5 127.0.0.1:10808 -o "$TEMP_DIR/extension.zip" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/assets/extension.zip || handle_error "Failed to download extensions"
 
 # Create extensions directory and set permissions
 mkdir -p "$TEMP_DIR/extensions"
