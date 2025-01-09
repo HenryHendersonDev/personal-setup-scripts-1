@@ -12,7 +12,7 @@ REAL_HOME=$(eval echo ~$REAL_USER)
 
 # Step 1: Install required packages
 echo "Installing required packages: zsh, fzf, curl, git, nano..."
-nala update && nala install -y zsh fzf curl git nano
+apt update && apt install -y zsh fzf curl git nano
 
 # Step 2: Install Oh My Zsh for the real user
 echo "Installing Oh My Zsh..."
