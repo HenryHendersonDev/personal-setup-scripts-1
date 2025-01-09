@@ -73,8 +73,8 @@ apt install nala -y || handle_error "Failed to download NALA"
 # Install Nvidia drivers
 info_msg "_________INSTALL REQUIRED DEPENDENCIES_________"
 nala install -y nvidia-driver || handle_error "Failed to install nvidia-drivers"
-sudo curl -L https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1-1/refs/heads/main/backups/monitors.xml -o /var/lib/gdm3/.config/monitors.xml
-sudo curl -L https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1-1/refs/heads/main/backups/monitors.xml -o "${ACTUAL_HOME}/.config/monitors.xml"
+sudo wget -O /var/lib/gdm3/.config/monitors.xml https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/refs/heads/main/backups/monitors.xml
+sudo wget -O "${ACTUAL_HOME}/.config/monitors.xml" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/refs/heads/main/backups/monitors.xml
 
 # Install required dependencies first
 info_msg "_________INSTALL REQUIRED DEPENDENCIES_________"
