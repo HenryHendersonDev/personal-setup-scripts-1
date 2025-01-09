@@ -178,7 +178,7 @@ sudo systemctl enable preload
 
 # Install Warp
 info_msg "_________INSTALL WARP_________"
-sudo -u "$ACTUAL_USER" curl --socks5 127.0.0.1:10808 -o "${TEMP_DIR}/warp.deb" https://app.warp.dev/download?package=deb || handle_error "Failed to download Warp"
+sudo curl --socks5 127.0.0.1:10808 -o "${TEMP_DIR}/warp.deb" https://app.warp.dev/download?package=deb || handle_error "Failed to download Warp"
 
 dpkg -i "${TEMP_DIR}/warp.deb" || nala --fix-broken install -y
 
@@ -193,21 +193,21 @@ flatpak_apps=(
 )
 
 for app in "${flatpak_apps[@]}"; do
-    flatpak install flathub "$app" -y || warning_msg "Failed to install $app"
+   sudo flatpak install flathub "$app" -y || warning_msg "Failed to install $app"
 done
 
 # Install Brave Browser
 info_msg "_________INSTALL BRAVE BROWSER_________"
 if ! [ -f /usr/share/keyrings/brave-browser-archive-keyring.gpg ]; then
-    curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | tee /etc/apt/sources.list.d/brave-browser-release.list
-    nala update || warning_msg "Failed to update after adding Brave repository"
+   sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+   sudo echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | tee /etc/apt/sources.list.d/brave-browser-release.list
+   sudo nala update || warning_msg "Failed to update after adding Brave repository"
 fi
-nala install -y brave-browser || warning_msg "Failed to install Brave browser"
+sudo nala install -y brave-browser || warning_msg "Failed to install Brave browser"
 
 # Install VS Code
 info_msg "_________INSTALL VS CODE_________"
-if ! curl --socks5 127.0.0.1:10808 -o "${TEMP_DIR}/vscode.deb" "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64"; then
+if ! sudo curl --socks5 127.0.0.1:10808 -o "${TEMP_DIR}/vscode.deb" "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64"; then
     warning_msg "Failed to download VS Code"
 else
     if ! dpkg -i "${TEMP_DIR}/vscode.deb"; then
@@ -218,7 +218,7 @@ fi
 
 # Install Chrome
 info_msg "_________INSTALL CHROME_________"
-curl --socks5 127.0.0.1:10808 -o "${TEMP_DIR}/chrome.deb" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" || warning_msg "Failed to download Chrome"
+sudo curl --socks5 127.0.0.1:10808 -o "${TEMP_DIR}/chrome.deb" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" || warning_msg "Failed to download Chrome"
 dpkg -i "${TEMP_DIR}/chrome.deb" || nala --fix-broken install -y
 
 # Install Redis
@@ -229,7 +229,7 @@ systemctl enable redis-server
 
 # Install Mailhog
 info_msg "_________INSTALL MAILHOG_________"
-curl --socks5 127.0.0.1:10808 -o "${TEMP_DIR}/MailHog" "https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64" || warning_msg "Failed to download MailHog"
+sudo curl --socks5 127.0.0.1:10808 -o "${TEMP_DIR}/MailHog" "https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64" || warning_msg "Failed to download MailHog"
 if [ -f "${TEMP_DIR}/MailHog" ]; then
     chmod +x "${TEMP_DIR}/MailHog"
     mv "${TEMP_DIR}/MailHog" /usr/local/bin/
@@ -241,7 +241,7 @@ FONT_DIR="${ACTUAL_HOME}/.fonts"
 mkdir -p "$FONT_DIR"
 chown "${ACTUAL_USER}:${ACTUAL_USER}" "$FONT_DIR"
 
-sudo -u "$ACTUAL_USER" curl --socks5 127.0.0.1:10808 -o "$TEMP_DIR/fonts.zip" "https://github.com/HenryHendersonDev/personal-setup-scripts-1/raw/main/assets/fonts.zip" || warning_msg "Failed to download fonts"
+sudo sudo -u "$ACTUAL_USER" curl --socks5 127.0.0.1:10808 -o "$TEMP_DIR/fonts.zip" "https://github.com/HenryHendersonDev/personal-setup-scripts-1/raw/main/assets/fonts.zip" || warning_msg "Failed to download fonts"
 if [ -f "$TEMP_DIR/fonts.zip" ]; then
     sudo -u "$ACTUAL_USER" unzip -o "$TEMP_DIR/fonts.zip" -d "$TEMP_DIR/fonts"
     sudo -u "$ACTUAL_USER" mv "$TEMP_DIR"/fonts/*.ttf "$FONT_DIR/" 2>/dev/null || warning_msg "No fonts to move"
