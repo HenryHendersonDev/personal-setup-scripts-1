@@ -71,11 +71,10 @@ apt update || handle_error "Failed to update package lists"
 apt install nala -y || handle_error "Failed to download NALA"
 
 # Install Nvidia drivers
-# gnome- sudo cp ~/.config/monitors.xml /var/lib/gdm3/.config/monitors.xml
 info_msg "_________INSTALL REQUIRED DEPENDENCIES_________"
 nala install -y nvidia-driver || handle_error "Failed to install nvidia-drivers"
-sudo curl -L https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts/refs/heads/main/scripts/subScript/vless-to-config.sh -o /var/lib/gdm3/.config/monitors.xml
-sudo curl -L https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts/refs/heads/main/scripts/subScript/vless-to-config.sh -o ~/.config/monitors.xml
+sudo curl -L https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1-1/refs/heads/main/backups/monitors.xml -o /var/lib/gdm3/.config/monitors.xml
+sudo curl -L https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1-1/refs/heads/main/backups/monitors.xml -o "${ACTUAL_HOME}/.config/monitors.xml"
 
 # Install required dependencies first
 info_msg "_________INSTALL REQUIRED DEPENDENCIES_________"
@@ -98,7 +97,7 @@ nala install -y gnome-shell-extensions gnome-tweaks gnome-shell-extension-manage
 # Download and install extensions
 info_msg "_________DOWNLOADING AND INSTALLING GNOME EXTENSIONS_________"
 # Download as the actual user
-sudo -u "$ACTUAL_USER" wget -P "$TEMP_DIR" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts/main/assets/extension.zip || handle_error "Failed to download extensions"
+sudo -u "$ACTUAL_USER" wget -P "$TEMP_DIR" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/assets/extension.zip || handle_error "Failed to download extensions"
 
 # Create extensions directory and set permissions
 mkdir -p "$TEMP_DIR/extensions"
@@ -132,8 +131,8 @@ sudo -u "$ACTUAL_USER" bash -c "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run
 
 # Download backup files with error checking
 info_msg "_________DOWNLOAD BACKUP FILES_________"
-sudo -u "$ACTUAL_USER" wget -P "$TEMP_DIR" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts/main/backups/gnome-backup.txt || handle_error "Failed to download gnome-backup.txt"
-sudo -u "$ACTUAL_USER" wget -P "$TEMP_DIR" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts/main/backups/gnome-extensions-backup.txt || handle_error "Failed to download gnome-extensions-backup.txt"
+sudo -u "$ACTUAL_USER" wget -P "$TEMP_DIR" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/backups/gnome-backup.txt || handle_error "Failed to download gnome-backup.txt"
+sudo -u "$ACTUAL_USER" wget -P "$TEMP_DIR" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/backups/gnome-extensions-backup.txt || handle_error "Failed to download gnome-extensions-backup.txt"
 
 # Restore settings from backups with proper dbus session
 info_msg "_________RESTORE SETTINGS FROM BACKUPS_________"
@@ -238,7 +237,7 @@ FONT_DIR="${ACTUAL_HOME}/.fonts"
 mkdir -p "$FONT_DIR"
 chown "${ACTUAL_USER}:${ACTUAL_USER}" "$FONT_DIR"
 
-sudo -u "$ACTUAL_USER" wget -P "$TEMP_DIR" https://github.com/HenryHendersonDev/personal-setup-scripts/raw/main/assets/fonts.zip || warning_msg "Failed to download fonts"
+sudo -u "$ACTUAL_USER" wget -P "$TEMP_DIR" https://github.com/HenryHendersonDev/personal-setup-scripts-1/raw/main/assets/fonts.zip || warning_msg "Failed to download fonts"
 if [ -f "$TEMP_DIR/fonts.zip" ]; then
     sudo -u "$ACTUAL_USER" unzip -o "$TEMP_DIR/fonts.zip" -d "$TEMP_DIR/fonts"
     sudo -u "$ACTUAL_USER" mv "$TEMP_DIR"/fonts/*.ttf "$FONT_DIR/" 2>/dev/null || warning_msg "No fonts to move"
@@ -247,16 +246,16 @@ fi
 
 # Download wallpaper to Downloads
 info_msg "_________DOWNLOAD WALLPAPER_________"
-sudo -u "$ACTUAL_USER" wget -P "${ACTUAL_HOME}/Downloads" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts/main/assets/wallpaper.jpg || warning_msg "Failed to download wallpaper"
+sudo -u "$ACTUAL_USER" wget -P "${ACTUAL_HOME}/Downloads" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/assets/wallpaper.jpg || warning_msg "Failed to download wallpaper"
 success_msg "Wallpaper downloaded to Downloads folder. You can set it manually if desired."
 
 # Download setup scripts
 info_msg "_________DOWNLOADING SETUP SCRIPTS_________"
 SCRIPT_URLS=(
-    "https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts/main/scripts/setup-zsh-oh-my-zsh.sh"
-    "https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts/main/scripts/setup-vless-xray.sh"
-    "https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts/main/scripts/nvidia-display-setup.sh"
-    "https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts/refs/heads/main/scripts/ZSH-plugins.sh"
+    "https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/scripts/setup-zsh-oh-my-zsh.sh"
+    "https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/scripts/setup-vless-xray.sh"
+    "https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/scripts/nvidia-display-setup.sh"
+    "https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/refs/heads/main/scripts/ZSH-plugins.sh"
 )
 
 for url in "${SCRIPT_URLS[@]}"; do
@@ -266,6 +265,16 @@ for url in "${SCRIPT_URLS[@]}"; do
 done
 
 success_msg "NVIDIA display setup script has been downloaded to Downloads/scripts folder. Run it later if you have any issues with NVIDIA resolution not showing 1280x1024."
+
+# Fix Scroll Issue
+cat >"${ACTUAL_HOME}/.imwheelrc" <<EOF
+".*"
+None,      Up,   Button4, 1
+None,      Down, Button5, 1
+EOF
+
+imwheel
+echo 'imwheel' >>"${ACTUAL_HOME}/.xinitrc"
 
 # Clean up the temp directory
 info_msg "_________CLEAN UP_________"

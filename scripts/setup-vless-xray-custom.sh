@@ -35,12 +35,12 @@ sudo rm $vless_url/Xray-linux-64.zip
 echo "Creating the Xray configuration file..."
 
 # Step 4: Download Config creator Script.
-sudo curl -L https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts/refs/heads/main/scripts/subScript/vless-to-config.sh -o $vless_url/vless-to-config.sh
+sudo curl -L https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/refs/heads/main/scripts/subScript/vless-to-config.sh -o $vless_url/vless-to-config.sh
 
 # Step 5 Download Proxy enable and disable scripts
 sudo mkdir -p $vless_url/script
-wget -P $vless_url/script https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts/refs/heads/main/scripts/proxy/enable-xray-proxy.sh
-wget -P $vless_url/script https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts/refs/heads/main/scripts/proxy/disable-xray-proxy.sh
+wget -P $vless_url/script https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/refs/heads/main/scripts/proxy/enable-xray-proxy.sh
+wget -P $vless_url/script https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/refs/heads/main/scripts/proxy/disable-xray-proxy.sh
 sudo touch /etc/apt/apt.conf.d/95proxies
 sudo chmod +x $vless_url/script/*
 

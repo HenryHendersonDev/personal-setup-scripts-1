@@ -44,7 +44,7 @@ if [ -f "${REAL_HOME}/.zshrc" ]; then
 fi
 
 # Download the new .zshrc file
-CONFIG_URL="https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts/refs/heads/main/backups/.zshrc"
+CONFIG_URL="https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/refs/heads/main/backups/.zshrc"
 
 if command -v wget &>/dev/null; then
   sudo -u $REAL_USER wget -O "${REAL_HOME}/.zshrc" $CONFIG_URL
