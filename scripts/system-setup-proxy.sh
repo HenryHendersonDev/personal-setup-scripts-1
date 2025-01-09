@@ -86,10 +86,10 @@ info_msg "_________UPDATE AND UPGRADE SYSTEM_________"
 nala update || handle_error "Failed to update package lists"
 nala upgrade -y || handle_error "Failed to upgrade packages"
 
-# Install Flatpak and dependencies
+# Install  and dependencies
 info_msg "_________INSTALL FLATPAK AND DEPENDENCIES_________"
 nala install -y flatpak gnome-software-plugin-flatpak || handle_error "Failed to install Flatpak"
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 # Install Gnome Extensions and Tweaks Packages
 info_msg "_________INSTALL GNOME EXTENSIONS AND TWEAKS_________"
