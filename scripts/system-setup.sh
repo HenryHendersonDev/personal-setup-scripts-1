@@ -73,8 +73,8 @@ apt install nala -y || handle_error "Failed to download NALA"
 # Install Nvidia drivers
 info_msg "_________INSTALL REQUIRED DEPENDENCIES_________"
 nala install -y nvidia-driver || handle_error "Failed to install nvidia-drivers"
-sudo wget -O /var/lib/gdm3/.config/monitors.xml https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/refs/heads/main/backups/monitors.xml
-sudo wget -O "${ACTUAL_HOME}/.config/monitors.xml" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/refs/heads/main/backups/monitors.xml
+sudo -u "$ACTUAL_USER" wget -P /var/lib/gdm3/.config/ https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/refs/heads/main/backups/monitors.xml
+sudo -u "$ACTUAL_USER" wget -P "${ACTUAL_HOME}/.config/" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/refs/heads/main/backups/monitors.xml
 
 # Install required dependencies first
 info_msg "_________INSTALL REQUIRED DEPENDENCIES_________"
@@ -97,7 +97,7 @@ nala install -y gnome-shell-extensions gnome-tweaks gnome-shell-extension-manage
 # Download and install extensions
 info_msg "_________DOWNLOADING AND INSTALLING GNOME EXTENSIONS_________"
 # Download as the actual user
-sudo -u "$ACTUAL_USER" wget -P "$TEMP_DIR" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/assets/extension.zip || handle_error "Failed to download extensions"
+sudo -u "$ACTUAL_USER"  -P "$TEMP_DIR" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/assets/extension.zip || handle_error "Failed to download extensions"
 
 # Create extensions directory and set permissions
 mkdir -p "$TEMP_DIR/extensions"
@@ -131,7 +131,7 @@ sudo -u "$ACTUAL_USER" bash -c "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run
 
 # Download backup files with error checking
 info_msg "_________DOWNLOAD BACKUP FILES_________"
-sudo -u "$ACTUAL_USER" wget -P "$TEMP_DIR" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/backups/gnome-backup.txt || handle_error "Failed to download gnome-backup.txt"
+sudo -u "$ACTUAL_USER"  -P "$TEMP_DIR" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/backups/gnome-backup.txt || handle_error "Failed to download gnome-backup.txt"
 sudo -u "$ACTUAL_USER" wget -P "$TEMP_DIR" https://raw.githubusercontent.com/HenryHendersonDev/personal-setup-scripts-1/main/backups/gnome-extensions-backup.txt || handle_error "Failed to download gnome-extensions-backup.txt"
 
 # Restore settings from backups with proper dbus session
